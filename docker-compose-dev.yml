@@ -1,0 +1,26 @@
+version: "3.0"
+
+networks:
+  database_network:
+    name: theDjangoNetwork
+    driver: bridge
+
+services:
+  database:
+    image: postgres
+#    user: pe_reports
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    hostname: pe_reports_postgres
+#    user: 1000:1000
+    restart: always
+    env_file:
+      - ./config/dev_database.env
+    networks:
+      - database_network
+    volumes:
+      - ./database_test/pg_data:/dev_database/
+    ports:
+      - "5437:5432"
+    container_name: 'local_pe_peports'
